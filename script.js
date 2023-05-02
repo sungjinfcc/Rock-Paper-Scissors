@@ -18,46 +18,40 @@ function getComputerChoice(){
     }
     return computerChoice;
 }
-function getPlayerChoice(){
-    let playerAnswer = prompt("Rock Paper Scissors?");
-    switch(playerAnswer.toLowerCase()){
-        case "rock":
-            return "Rock";
-        case "paper":
-            return "Paper"
-        case "scissors":
-            return "Scissors"
-        default:
-            console.log("Typo");
-            return "Rock";
+function getPlayerChoice(e){
+    playerSelection = e.target.className;
+    computerSelection = getComputerChoice();
+    let resultMessage = playRound(playerSelection, computerSelection);
+    document.querySelector('.result').innerHTML = resultMessage;
+    document.querySelector('.score').textContent = `Computer : ${computerWon} vs Player : ${playerWon}`;
+    if(computerWon == 5){
+        document.querySelector('.result').textContent = "The End";
+        document.querySelector('.score').textContent = `Computer Won ${computerWon} vs ${playerWon}`;
+    }else if(playerWon == 5){
+        document.querySelector('.result').textContent = "The End";
+        document.querySelector('.score').textContent = `Player Won ${playerWon} vs ${computerWon}`;
     }
 }
 function playRound(p, c){
     let player = p == "Rock" ? 0 : p == "Paper" ? 1 : 2;
     let computer = c == "Rock" ? 0 : c == "Paper" ? 1 : 2;
     if(player == computer){
-        return `Tie! computer : ${c} / you : ${p}`;
+        return `Tie! <br> Computer : ${c} / You : ${p}`;
     }else if(player > computer){
         if(computer == 0 && player == 2){
             computerWon++;
-            return `You Lose! computer : ${c} / you : ${p}`
+            return `You Lose!<br> Computer : ${c} / You : ${p}`
         }
         playerWon++;
-        return `You Won! computer : ${c} / you : ${p}`
+        return `You Won!<br> Computer : ${c} / You : ${p}`
     }else{
         if(computer == 2 && player == 0){
             playerWon++;
-            return `You Won! computer : ${c} / you : ${p}`
+            return `You Won!<br> Computer : ${c} / You : ${p}`
         }
         computerWon++;
-        return `You Lose! computer : ${c} / you : ${p}`
+        return `You Lose!<br> Computer : ${c} / You : ${p}`
     }
 }
-function game(){
-    for(let i = 0; i < 5; i++){
-        computerSelection = getComputerChoice();
-        playerSelection = getPlayerChoice();
-        console.log(playRound(playerSelection, computerSelection));
-    }
-    console.log(`Computer : ${computerWon}, player : ${playerWon}`);
-}
+const buttons = Array.from(document.querySelectorAll('button'));
+buttons.forEach((button) => button.addEventListener('click', getPlayerChoice));
