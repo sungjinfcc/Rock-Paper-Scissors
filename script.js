@@ -61,5 +61,3 @@ function game(){
     }
     console.log(`Computer : ${computerWon}, player : ${playerWon}`);
 }
-
-game();
